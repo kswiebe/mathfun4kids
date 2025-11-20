@@ -124,6 +124,6 @@ p <- ggplot(df, aes(x = dot_col, y = dot_row)) +
 #p
 # -------------- SAVE -------------- #
 
-ggsave(outfile, p, width = 30, height = 40, units = "cm", dpi = 300)
+ggsave(outfile, p, width = 30, height = 35, units = "cm", dpi = 300)
 
 cat("Saved poster to", outfile, "\n")
