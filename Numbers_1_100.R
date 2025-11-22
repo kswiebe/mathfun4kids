@@ -6,7 +6,6 @@ library(grid)   # for unit()
 
 # ---------------- CONFIG ---------------- #
 
-outfile <- "Numbers_1_100_poster.jpg"
 
 # Colors for each tens row (1–10, 11–20, ..., 91–100)
 
@@ -79,51 +78,31 @@ numbers_df <- data.frame(
 )
 
 # -------------- PLOT -------------- #
+df_temp = df
+numbers_df_temp = numbers_df
 
-p <- ggplot(df, aes(x = dot_col, y = dot_row)) +
-  
-  # dots
-  geom_point(
-    aes(fill = fill_color),
-    shape = 21, size = 1.8,
-    colour = "grey20", 
-    #colour = "black", 
-    stroke = 0.3 
-  ) +
-  
-  # number label in each facet
-  geom_text(
-    data = numbers_df,
-    aes(x = x, y = y, label = number),
-    inherit.aes = FALSE,
-    color = rep(tens_palette,each=10),
-    fontface="bold",
-    size = 5
-  ) +
-  
-  scale_fill_identity() +
-  
-  scale_x_continuous(limits = c(-0.5, 9.5), breaks = NULL, expand = c(0, 0)) +
-  
-  scale_y_continuous(limits = c(-0.5, 11),  breaks = NULL, expand = c(0, 0)) +
-  
-  facet_wrap(~ number, ncol = 10) +
-  
-  coord_equal() +
-  
-  theme_void() +
-  
-  theme(
-    strip.text = element_blank(),
-    panel.spacing = unit(0.8, "lines"),
-    #plot.background = element_rect(fill = "lightgrey"),
-    # strip.background = element_rect(fill = rep(tens_palette_transparent,10)),
-    plot.margin = margin(10, 10, 10, 10)
-  )
+tens_palette_select = tens_palette
+pictureheight = 35
+outfile <- "Numbers_1_100_poster.jpg"
+source("Numbers_1_100_plot.R")
 
-#p
-# -------------- SAVE -------------- #
+df_1_50 = df_temp[which(df_temp$number <= 50),]
+numbers_df_1_50 = numbers_df_temp[which(numbers_df_temp$number <= 50),]
+df_51_100 = df_temp[which(df_temp$number > 50),]
+numbers_df_51_100 = numbers_df_temp[which(numbers_df_temp$number > 50),]
 
-ggsave(outfile, p, width = 30, height = 35, units = "cm", dpi = 300)
+df = df_1_50
+numbers_df = numbers_df_1_50
+tens_palette_select = tens_palette[1:5]
+pictureheight = 17
+outfile <- "Numbers_1_50_poster.jpg"
+source("Numbers_1_100_plot.R")
 
-cat("Saved poster to", outfile, "\n")
+
+df = df_51_100
+numbers_df = numbers_df_51_100
+tens_palette_select = tens_palette[6:10]
+pictureheight = 17
+outfile <- "Numbers_51_100_poster.jpg"
+source("Numbers_1_100_plot.R")
+
